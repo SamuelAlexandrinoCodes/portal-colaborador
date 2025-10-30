@@ -79,8 +79,12 @@ function UploadPage() {
           </label>
         </div>
         
-        <button type="submit" className="upload-button">
-          Enviar para Análise
+        <button 
+          type="submit" 
+          className="upload-button" 
+          disabled={isUploading}  // <-- A CORREÇÃO CRÍTICA (O USO DA VARIÁVEL)
+        >
+          {isUploading ? "Enviando..." : "Enviar para Análise"}
         </button>
       </form>
 
