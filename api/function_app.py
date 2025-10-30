@@ -21,7 +21,8 @@ from azure.ai.documentintelligence.models import AnalyzeResult
 azure_credential = DefaultAzureCredential()
 search_client = None
 doc_intelligence_client = None
-MODEL_ID_PARA_ANALISE = None # <--- CORREÇÃO: Variável para o Model ID
+MODEL_ID_PARA_ANALISE = None
+blob_service_client = None
 
 try:
     # Cliente do AI Search (usando Managed Identity)
@@ -42,6 +43,19 @@ try:
         credential=DocumentIntelligenceKeyCredential(doc_intel_key)
     )
     logging.info(f"Cliente Document Intelligence conectado ao endpoint.")
+    
+    # --- INÍCIO DA CORREÇÃO TÁTICA ---
+    # Adicionar o Cliente do Blob Service (para o Upload HTTP)
+    # Ele usa a string de conexão que já está nas Configurações do SWA
+    
+    connect_str = os.environ.get("AzureWebJobsStorage")
+    if not connect_str:
+        logging.error("Variável de ambiente AzureWebJobsStorage não definida.")
+        raise ValueError("String de Conexão do Storage ausente.")
+        
+    from azure.storage.blob import BlobServiceClient
+    blob_service_client = BlobServiceClient.from_connection_string(connect_str)
+    logging.info("Cliente Blob Service (AzureWebJobsStorage) inicializado.")
 
     # --- CORREÇÃO (Fusão v7.1): Carregar o Model ID do ambiente ---
     MODEL_ID_PARA_ANALISE = os.environ.get("DOCUMENT_INTELLIGENCE_MODEL_ID")

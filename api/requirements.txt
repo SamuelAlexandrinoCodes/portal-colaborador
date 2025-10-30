@@ -1,4 +1,11 @@
+# Pacote principal do Azure Functions
 azure-functions
+
+# Dependências da Campanha
+azure-identity
 azure-search-documents
-azure-identity 
 azure-ai-documentintelligence
+
+# --- MUNIÇÃO FALTANTE ADICIONADA ---
+azure-storage-blob  # <--- CRÍTICO: Para o UploadLaudoHTTP (BlobServiceClient)
+python-dateutil     # <--- CRÍTICO: Para o ProcessMedicalReport (relativedelta)
