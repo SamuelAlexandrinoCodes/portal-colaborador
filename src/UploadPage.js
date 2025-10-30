@@ -2,23 +2,24 @@ import React, { useState } from 'react';
 
 function UploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [feedback, setFeedback] = useState(''); // Feedback local
+  // 'feedback' agora é crucial para a UX
+  const [feedback, setFeedback] = useState(''); 
+  const [isUploading, setIsUploading] = useState(false); // Para desabilitar o botão
 
   const handleFileChange = (event) => {
+    // ... (lógica existente sem mudança) ...
     const file = event.target.files[0];
-    
-    // Validação de tipo de arquivo (RF-002)
     if (file && file.type !== "application/pdf") {
       setFeedback("Erro: O arquivo deve ser um .pdf");
       setSelectedFile(null);
       return;
     }
-    
     setFeedback(file ? `Arquivo selecionado: ${file.name}` : '');
     setSelectedFile(file);
   };
 
-  const handleSubmit = (event) => {
+  // --- INÍCIO DA MODIFICAÇÃO (HANDLE SUBMIT) ---
+  const handleSubmit = async (event) => {
     event.preventDefault();
     
     if (!selectedFile) {
@@ -26,18 +27,37 @@ function UploadPage() {
       return;
     }
 
-    // --- PONTO DE ATRITO (CAMPANHA 3) ---
-    // Conforme a diretriz, não vamos simular (mockar) a chamada de rede.
-    // O botão está pronto para a Campanha 3 (Backend).
-    
-    setFeedback("Lógica de upload ainda não conectada. (Aguardando Backend /api/upload)");
-    
-    // const formData = new FormData();
-    // formData.append("file", selectedFile);
-    //
-    // fetch("/api/upload", { method: "POST", body: formData })
-    //   .then(...)
-    //   .catch(...);
+    setIsUploading(true); // Desabilita o botão
+    setFeedback("Enviando... por favor, aguarde.");
+
+    const formData = new FormData();
+    formData.append("file", selectedFile); // O nome 'file' deve bater com o req.files.get("file")
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+        // O SWA injetará o token de auth automaticamente
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        // Erro do backend (400, 401, 500)
+        setFeedback(`Erro: ${result.error || 'Falha ao enviar.'}`);
+      } else {
+        // Sucesso (200)
+        setFeedback(`Sucesso: ${result.message}`);
+        setSelectedFile(null); // Limpa o formulário
+        // TODO: Limpar o input de arquivo (se necessário)
+      }
+
+    } catch (err) {
+      console.error("Erro de rede ou fetch:", err);
+      setFeedback("Erro de conexão. Verifique sua rede e tente novamente.");
+    } finally {
+      setIsUploading(false); // Reabilita o botão
+    }
   };
 
   return (
