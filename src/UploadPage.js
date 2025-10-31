@@ -34,11 +34,12 @@ function UploadPage() {
     formData.append("file", selectedFile); // O nome 'file' deve bater com o req.files.get("file")
 
     try {
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-        // O SWA injetará o token de auth automaticamente
-      });
+      const backendUrl = "https://saofunc-backendtrigger-fraud.azurewebsites.net/api/upload";
+
+      const response = await fetch(backendUrl, {
+      method: "POST",
+      body: formData,
+          });
 
       const result = await response.json();
 
