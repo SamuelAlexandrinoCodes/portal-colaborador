@@ -28,7 +28,7 @@ function Sidebar() {
         </li>
       </ul>
       <div className="sidebar-footer">
-        <a href="#logout" onClick={(e) => e.preventDefault()}>Sair</a>
+        <a href="/.auth/logout">Sair</a>
       </div>
     </nav>
   );
