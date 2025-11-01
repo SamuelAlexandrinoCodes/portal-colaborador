@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import UploadPage from './UploadPage';
 import HistoryPage from './HistoryPage';
+import LogoutPage from './LogoutPage';
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
             
             {/* Rota de histórico (simples) */}
             <Route path="/historico" element={<HistoryPage />} />
+            {/* Rota de logout */}
+            <Route path="/logout-success" element={<LogoutPage />} />
             
             {/* TODO: Adicionar mocks para as outras rotas */}
           </Routes>

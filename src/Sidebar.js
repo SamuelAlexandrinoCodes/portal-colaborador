@@ -28,7 +28,7 @@ function Sidebar() {
         </li>
       </ul>
       <div className="sidebar-footer">
-        <a href="/.auth/logout">Sair</a>
+        <a href="/.auth/logout?post_logout_redirect_uri=/logout-success">Sair</a>
       </div>
     </nav>
   );

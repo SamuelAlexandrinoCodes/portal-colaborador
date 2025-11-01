@@ -5,6 +5,10 @@
       "allowedRoles": [ "anonymous" ]
     },
     {
+      "route": "/logout-success",
+      "allowedRoles": [ "anonymous" ]
+    },
+    {
       "route": "/.auth/logout",
       "allowedRoles": [ "authenticated" ]
     },
