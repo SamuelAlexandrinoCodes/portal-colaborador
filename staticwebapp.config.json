@@ -23,8 +23,15 @@
       "statusCode": 302
     }
   },
-
   "navigationFallback": {
-    "rewrite": "/index.html"
+    "rewrite": "/index.html",
+    "exclude": [
+      "/static/css/*",
+      "/static/js/*",
+      "/static/media/*",
+      "/*.{js,css,png,jpg,jpeg,gif,svg,ico,json,map}",
+      "/.auth/*",
+      "/api/*"
+    ]
   }
 }
