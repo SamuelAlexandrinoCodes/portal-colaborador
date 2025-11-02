@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext'; // <-- NOSSO NOVO HOOK
+import './UploadPage.css';
+
 
 function UploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext'; // <-- NOSSO NOVO HOOK
+import './HistoryPage.css';
 
 function HistoryPage() {
   const [documents, setDocuments] = useState([]);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
+import './LoginPage.css';
 
 function LoginPage() {
   const { clientPrincipal, isLoading } = useAuth();
