@@ -1,17 +1,19 @@
 {
   "routes": [
+
+    { "route": "/.auth/login/aad", "allowedRoles": [ "anonymous" ] },
+    { "route": "/logout-success", "allowedRoles": [ "anonymous" ] },
+    { "route": "/.auth/logout", "allowedRoles": [ "authenticated" ] },
+
     {
-      "route": "/.auth/login/aad",
+      "route": "/static/*",
       "allowedRoles": [ "anonymous" ]
     },
     {
-      "route": "/logout-success",
+      "route": "/*.{js,css,png,jpg,jpeg,gif,svg,ico,json,map,txt}",
       "allowedRoles": [ "anonymous" ]
     },
-    {
-      "route": "/.auth/logout",
-      "allowedRoles": [ "authenticated" ]
-    },
+
     {
       "route": "/*",
       "allowedRoles": [ "authenticated" ]
@@ -23,13 +25,12 @@
       "statusCode": 302
     }
   },
+
   "navigationFallback": {
     "rewrite": "/index.html",
     "exclude": [
-      "/static/css/*",
-      "/static/js/*",
-      "/static/media/*",
-      "/*.{js,css,png,jpg,jpeg,gif,svg,ico,json,map}",
+      "/static/*",
+      "/*.{js,css,png,jpg,jpeg,gif,svg,ico,json,map,txt}",
       "/.auth/*",
       "/api/*"
     ]
