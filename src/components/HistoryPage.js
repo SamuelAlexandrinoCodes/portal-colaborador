@@ -1,7 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useMsal } from "@azure/msal-react"; 
 import { loginRequest } from "../authConfig"; 
-import './HistoryPage.css';
+import './HistoryPage.css'; // O CSS (v25) que já temos
+
+// --- NOVO SUB-COMPONENTE TÁTICO (REQ-06 v2.0) ---
+// Para renderizar o status com cores (Vermelho/Verde/Amarelo)
+const StatusBadge = ({ validade, fraude, processamento }) => {
+  if (processamento !== "Processado (MSAL)") {
+    return <span className="status-badge status-pending">{processamento}</span>;
+  }
+  if (fraude.startsWith("Rejeitado")) {
+    return <span className="status-badge status-invalid">{fraude}</span>;
+  }
+  if (validade === "Válido") {
+    return <span className="status-badge status-valid">Válido</span>;
+  }
+  if (validade === "Expirado") {
+    return <span className="status-badge status-expired">{validade}</span>;
+  }
+  
+  // Fallback
+  return <span className="status-badge status-pending">{validade}</span>;
+};
+// --- FIM DO SUB-COMPONENTE ---
+
 
 function HistoryPage() {
   const [documents, setDocuments] = useState([]);
@@ -9,7 +31,6 @@ function HistoryPage() {
   const { instance, accounts } = useMsal();
 
   useEffect(() => {
-    // Só execute se a conta MSAL estiver pronta
     if (!accounts || accounts.length === 0) {
       setFeedback("Aguardando login...");
       return;
@@ -25,11 +46,10 @@ function HistoryPage() {
         });
         token = tokenResponse.accessToken;
       } catch (err) {
-        // --- CORREÇÃO: Lógica de aquisição de token espelhada ---
         console.warn("Aquisição silenciosa falhou, tentando redirecionamento: ", err);
         try {
           await instance.acquireTokenRedirect({ ...loginRequest, account: accounts[0] });
-          return; // O código não continuará
+          return; 
         } catch (redirectErr) {
           setFeedback("Falha ao adquirir token. Tente recarregar a página.");
           return;
@@ -71,20 +91,22 @@ function HistoryPage() {
     fetchHistory();
   }, [instance, accounts]); 
 
-  // ... (O JSX 'return' permanece o mesmo) ...
   return (
     <div className="page-container">
-      <h2>Meus Documentos (REQ-06)</h2>
+      <h2>Meus Documentos (REQ-06 v2.0)</h2>
       
       {feedback && <div className="feedback-message">{feedback}</div>}
 
+      {/* --- INÍCIO DA CORREÇÃO (REQ-06 v2.0) --- */}
       <div className="history-list">
         <table>
           <thead>
             <tr>
               <th>Arquivo</th>
-              <th>Status</th>
-              <th>Paciente</th>
+              <th>Status do Laudo</th>
+              <th>Paciente (do PDF)</th>
+              <th>Médico (do PDF)</th>
+              <th>Definição (do PDF)</th>
               <th>Data de Envio</th>
             </tr>
           </thead>
@@ -92,14 +114,23 @@ function HistoryPage() {
             {documents.map(doc => (
               <tr key={doc.id}>
                 <td>{doc.filename || 'N/A'}</td>
-                <td>{doc.status_processamento || 'N/A'}</td>
+                <td>
+                  <StatusBadge 
+                    validade={doc.status_validade}
+                    fraude={doc.status_fraude}
+                    processamento={doc.status_processamento}
+                  />
+                </td>
                 <td>{doc.nome_paciente || 'N/A'}</td>
+                <td>{doc.nome_medico || 'N/A'} (ID: {doc.id_medico || 'N/A'})</td>
+                <td>{doc.definicao_laudo || 'N/A'}</td>
                 <td>{new Date(doc.upload_timestamp).toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      {/* --- FIM DA CORREÇÃO --- */}
     </div>
   );
 }

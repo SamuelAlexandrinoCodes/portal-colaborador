@@ -26,3 +26,31 @@
 .history-list tbody tr:hover {
   background-color: #f9f9f9;
 }
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.status-badge.status-valid {
+  background-color: #d1f7e4; /* Verde claro */
+  color: #008744; /* Verde escuro */
+}
+
+.status-badge.status-invalid {
+  background-color: #f7d1d1; /* Vermelho claro */
+  color: #d62d20; /* Vermelho escuro */
+}
+
+.status-badge.status-expired {
+  background-color: #f7e8d1; /* Laranja claro */
+  color: #f08c00; /* Laranja escuro */
+}
+
+.status-badge.status-pending {
+  background-color: #d1e9f7; /* Azul claro */
+  color: #0056b3; /* Azul escuro */
+}
