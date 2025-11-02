@@ -5,27 +5,21 @@ import './HistoryPage.css';
 function HistoryPage() {
   const [documents, setDocuments] = useState([]);
   const [feedback, setFeedback] = useState('Carregando seu histórico...');
-  const { accessToken, clientPrincipal } = useAuth(); // Obter o token
+  const { clientPrincipal } = useAuth(); // Obter o token
 
   useEffect(() => {
     // Não tente buscar se o token ainda não estiver disponível
-    if (!accessToken) {
-      if (!clientPrincipal) {
-        setFeedback("Erro: Autenticação não encontrada.");
-      }
+    if (!clientPrincipal) {
+      setFeedback("Erro: Autenticação não encontrada.");
       return;
     }
 
     (async () => {
       try {
-        const backendUrl = "https://saofunc-backendtrigger-fraud.azurewebsites.net/api/history";
-        
-        const headers = new Headers();
-        headers.append('Authorization', `Bearer ${accessToken}`);
+        const backendUrl = "/api/history";
 
         const response = await fetch(backendUrl, {
           method: 'GET',
-          headers: headers,
         });
 
         const result = await response.json();
@@ -42,7 +36,7 @@ function HistoryPage() {
         setFeedback("Erro de conexão. Verifique sua rede.");
       }
     })();
-  }, [accessToken, clientPrincipal]); // Executar quando o token estiver disponível
+  }, [clientPrincipal]); // Executar quando o token estiver disponível
 
   return (
     <div className="page-container">

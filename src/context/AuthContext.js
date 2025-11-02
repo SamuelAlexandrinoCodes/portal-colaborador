@@ -1,27 +1,21 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// 1. Criar o Contexto
 const AuthContext = createContext();
 
-// 2. Criar o Provedor (Componente que busca e armazena os dados)
 export function AuthProvider({ children }) {
   const [clientPrincipal, setClientPrincipal] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       try {
-        // Esta rota é protegida pelo 'navigationFallback.exclude'
         const res = await fetch('/.auth/me');
         if (res.ok) {
           const data = await res.json();
-          const { clientPrincipal } = data;
-          
-          if (clientPrincipal) {
-            setClientPrincipal(clientPrincipal);
-            setAccessToken(clientPrincipal.accessToken);
-          }
+          // --- CORREÇÃO v26 ---
+          // Simplesmente definimos o clientPrincipal.
+          setClientPrincipal(data.clientPrincipal); 
+          // --- FIM DA CORREÇÃO ---
         }
       } catch (error) {
         console.error("Falha ao buscar dados de autenticação:", error);
@@ -31,11 +25,12 @@ export function AuthProvider({ children }) {
     })();
   }, []);
 
+  // --- CORREÇÃO v26 ---
   const authData = {
-    clientPrincipal,
-    accessToken,
+    clientPrincipal, // O único valor que precisamos
     isLoading
   };
+  // --- FIM DA CORREÇÃO ---
 
   return (
     <AuthContext.Provider value={authData}>
@@ -44,7 +39,6 @@ export function AuthProvider({ children }) {
   );
 }
 
-// 3. Criar o Hook (o atalho para os componentes usarem os dados)
 export const useAuth = () => {
   return useContext(AuthContext);
 };

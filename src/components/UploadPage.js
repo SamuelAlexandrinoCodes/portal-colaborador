@@ -8,9 +8,7 @@ function UploadPage() {
   const [feedback, setFeedback] = useState(''); 
   const [isUploading, setIsUploading] = useState(false);
   
-  // --- INÍCIO DA MODIFICAÇÃO (v21) ---
-  const { accessToken } = useAuth(); // Obter o token do nosso QG
-  // --- FIM DA MODIFICAÇÃO ---
+  const { clientPrincipal } = useAuth();
 
   const handleFileChange = (event) => {
     // ... (lógica existente sem mudança) ...
@@ -32,9 +30,9 @@ function UploadPage() {
       return;
     }
 
-    // --- VERIFICAÇÃO DE TOKEN (v21) ---
-    if (!accessToken) {
-      setFeedback("Erro crítico: Token de autenticação não encontrado. Tente recarregar a página.");
+    // --- NOVA VERIFICAÇÃO v26 ---
+    if (!clientPrincipal) { 
+      setFeedback("Erro crítico: Autenticação não encontrada. Tente recarregar a página.");
       return;
     }
     // --- FIM DA VERIFICAÇÃO ---
@@ -46,14 +44,10 @@ function UploadPage() {
     formData.append("file", selectedFile);
 
     try {
-      const backendUrl = "https://saofunc-backendtrigger-fraud.azurewebsites.net/api/upload";
-
-      const headers = new Headers();
-      headers.append('Authorization', `Bearer ${accessToken}`); // <-- Usar o token do hook
-
+      const backendUrl = "/api/upload";
+      
       const response = await fetch(backendUrl, {
         method: "POST",
-        headers: headers,
         body: formData,
       });
 
