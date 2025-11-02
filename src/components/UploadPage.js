@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext'; // <-- NOSSO NOVO HOOK
+import { useMsal } from "@azure/msal-react";
+import { loginRequest } from "../authConfig"; 
 import './UploadPage.css';
-
 
 function UploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [feedback, setFeedback] = useState(''); 
   const [isUploading, setIsUploading] = useState(false);
   
-  const { clientPrincipal } = useAuth();
+  const { instance, accounts } = useMsal();
 
   const handleFileChange = (event) => {
-    // ... (lógica existente sem mudança) ...
     const file = event.target.files[0];
     if (file && file.type !== "application/pdf") {
       setFeedback("Erro: O arquivo deve ser um .pdf");
@@ -24,30 +23,58 @@ function UploadPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
     if (!selectedFile) {
-      setFeedback("Por favor, selecione um arquivo PDF primeiro.");
-      return;
+        setFeedback("Por favor, selecione um arquivo PDF primeiro.");
+        return;
     }
-
-    // --- NOVA VERIFICAÇÃO v26 ---
-    if (!clientPrincipal) { 
-      setFeedback("Erro crítico: Autenticação não encontrada. Tente recarregar a página.");
-      return;
-    }
-    // --- FIM DA VERIFICAÇÃO ---
 
     setIsUploading(true);
-    setFeedback("Enviando... por favor, aguarde.");
+    setFeedback("Adquirindo token de autenticação...");
 
+    let token = null;
+
+    try {
+      const tokenResponse = await instance.acquireTokenSilent({
+        ...loginRequest,
+        account: accounts[0] 
+      });
+      token = tokenResponse.accessToken;
+    } catch (err) {
+      // --- INÍCIO DA CORREÇÃO (MSAL-R) ---
+      // Corrigido: 'logging.warn' para 'console.warn'
+      console.warn("Aquisição silenciosa falhou, tentando redirecionamento: ", err);
+      // --- FIM DA CORREÇÃO ---
+      try {
+        await instance.acquireTokenRedirect({
+          ...loginRequest,
+          account: accounts[0]
+        });
+        return; 
+      } catch (redirectErr) {
+        setFeedback("Erro crítico: Falha ao adquirir token. Tente fazer login novamente.");
+        setIsUploading(false);
+        return;
+      }
+    }
+
+    if (!token) {
+      setFeedback("Erro: Token não adquirido.");
+      setIsUploading(false);
+      return;
+    }
+
+    setFeedback("Enviando... por favor, aguarde.");
     const formData = new FormData();
     formData.append("file", selectedFile);
 
     try {
-      const backendUrl = "/api/upload";
-      
+      const backendUrl = "https://saofunc-backendtrigger-fraud.azurewebsites.net/api/upload";
+      const headers = new Headers();
+      headers.append('Authorization', `Bearer ${token}`);
+
       const response = await fetch(backendUrl, {
         method: "POST",
+        headers: headers,
         body: formData,
       });
 
@@ -71,7 +98,7 @@ function UploadPage() {
     }
   };
 
-  // O 'return' (JSX) permanece o mesmo do seu arquivo v18
+  // ... (O JSX 'return' permanece o mesmo) ...
   return (
     <div className="page-container">
       <h2>Enviar Laudo Médico</h2>

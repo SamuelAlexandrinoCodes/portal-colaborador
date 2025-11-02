@@ -1,44 +1,43 @@
-// ... (importações existentes, React, NavLink, etc.)
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './Sidebar.css';
-// ... (importe seus ícones)
+import { useMsal } from "@azure/msal-react"; // <-- MSAL
+import './Sidebar.css'; 
 
 function Sidebar() {
-  // (Lógica existente para 'userDetails' se você buscá-los do useAuth)
-  // const { clientPrincipal } = useAuth(); 
-  // const userName = clientPrincipal ? clientPrincipal.userDetails : "Usuário";
+  // --- INÍCIO DA MUDANÇA (Operação MSAL) ---
+  const { instance } = useMsal();
+
+  const handleLogout = () => {
+    // 'logoutRedirect' limpa a sessão e redireciona para a página pós-logout (que é a home)
+    instance.logoutRedirect({
+      postLogoutRedirectUri: "/",
+    });
+  }
+  // --- FIM DA MUDANÇA ---
 
   return (
     <nav className="sidebar">
       <div className="sidebar-header">
-        {/* <h3>Portal ({userName})</h3> */}
         <h3>Portal</h3>
       </div>
       <ul className="sidebar-links">
         <li>
-          <NavLink to="/upload" className={({ isActive }) => isActive ? "active-link" : ""}>
-            {/* <IconUpload /> */}
+          {/* Mude 'to="/upload"' para 'to="/"' ou '/upload' */}
+          <NavLink to="/" className={({ isActive }) => isActive ? "active-link" : ""}>
             <span>Enviar Documento</span>
           </NavLink>
         </li>
         <li>
           <NavLink to="/history" className={({ isActive }) => isActive ? "active-link" : ""}>
-            {/* <IconHistory /> */}
             <span>Meus Documentos</span>
           </NavLink>
         </li>
       </ul>
       <div className="sidebar-footer">
-        {/* A CORREÇÃO DO LOGOUT (v21)
-          Simplesmente um link 'a' para o endpoint de logout do SWA.
-          O SWA cuidará do redirecionamento para '/' (a LoginPage) 
-          conforme definido no staticwebapp.config.json.
-        */}
-        <a href="/.auth/logout" className="logout-link">
-          {/* <IconLogout /> */}
+        {/* Modificado de <a> para <button> para usar onClick */}
+        <button onClick={handleLogout} className="logout-link">
           <span>Sair</span>
-        </a>
+        </button>
       </div>
     </nav>
   );

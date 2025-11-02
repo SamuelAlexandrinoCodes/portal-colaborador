@@ -1,25 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext'; // <-- NOSSO NOVO HOOK
+import { useMsal } from "@azure/msal-react"; 
+import { loginRequest } from "../authConfig"; 
 import './HistoryPage.css';
 
 function HistoryPage() {
   const [documents, setDocuments] = useState([]);
-  const [feedback, setFeedback] = useState('Carregando seu histórico...');
-  const { clientPrincipal } = useAuth(); // Obter o token
+  const [feedback, setFeedback] = useState('Adquirindo token...');
+  const { instance, accounts } = useMsal();
 
   useEffect(() => {
-    // Não tente buscar se o token ainda não estiver disponível
-    if (!clientPrincipal) {
-      setFeedback("Erro: Autenticação não encontrada.");
+    // Só execute se a conta MSAL estiver pronta
+    if (!accounts || accounts.length === 0) {
+      setFeedback("Aguardando login...");
       return;
     }
 
-    (async () => {
+    const fetchHistory = async () => {
+      let token = null;
+
       try {
-        const backendUrl = "/api/history";
+        const tokenResponse = await instance.acquireTokenSilent({
+          ...loginRequest,
+          account: accounts[0]
+        });
+        token = tokenResponse.accessToken;
+      } catch (err) {
+        // --- CORREÇÃO: Lógica de aquisição de token espelhada ---
+        console.warn("Aquisição silenciosa falhou, tentando redirecionamento: ", err);
+        try {
+          await instance.acquireTokenRedirect({ ...loginRequest, account: accounts[0] });
+          return; // O código não continuará
+        } catch (redirectErr) {
+          setFeedback("Falha ao adquirir token. Tente recarregar a página.");
+          return;
+        }
+      }
+
+      if (!token) {
+        setFeedback("Token não encontrado.");
+        return;
+      }
+
+      setFeedback("Carregando seu histórico...");
+      
+      try {
+        const backendUrl = "https://saofunc-backendtrigger-fraud.azurewebsites.net/api/history";
+        const headers = new Headers();
+        headers.append('Authorization', `Bearer ${token}`);
 
         const response = await fetch(backendUrl, {
           method: 'GET',
+          headers: headers,
         });
 
         const result = await response.json();
@@ -35,9 +66,12 @@ function HistoryPage() {
         console.error("Erro de rede ou fetch:", err);
         setFeedback("Erro de conexão. Verifique sua rede.");
       }
-    })();
-  }, [clientPrincipal]); // Executar quando o token estiver disponível
+    };
 
+    fetchHistory();
+  }, [instance, accounts]); 
+
+  // ... (O JSX 'return' permanece o mesmo) ...
   return (
     <div className="page-container">
       <h2>Meus Documentos (REQ-06)</h2>
