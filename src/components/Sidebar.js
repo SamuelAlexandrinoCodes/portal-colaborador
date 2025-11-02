@@ -1,6 +1,7 @@
 // ... (importações existentes, React, NavLink, etc.)
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import './Sidebar.css';
 // ... (importe seus ícones)
 
 function Sidebar() {

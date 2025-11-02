@@ -1,0 +1,76 @@
+/* /src/components/Sidebar.css */
+
+.sidebar {
+  width: 250px;
+  background-color: #1e293b; /* Azul escuro */
+  color: #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  flex-shrink: 0; /* Impede que a sidebar encolha */
+  padding: 1.5rem 0;
+}
+
+.sidebar-header {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  border-bottom: 1px solid #334155;
+}
+
+.sidebar-header h3 {
+  color: #ffffff;
+  font-size: 1.25rem;
+}
+
+.sidebar-links {
+  list-style: none;
+  padding: 1.5rem 0;
+  flex-grow: 1; /* Empurra o footer para baixo */
+}
+
+.sidebar-links li {
+  margin-bottom: 0.5rem;
+}
+
+/* --- A CORREÇÃO CRÍTICA DE NAVEGAÇÃO --- */
+.sidebar-links a {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none; /* Remove o sublinhado roxo */
+  color: #cbd5e1; /* Cinza claro */
+  border-radius: 4px;
+  margin: 0 1rem;
+  transition: background-color 0.2s;
+}
+
+.sidebar-links a:hover {
+  background-color: #334155; /* Azul mais escuro */
+}
+
+/* O 'NavLink' ativo */
+.sidebar-links a.active-link {
+  background-color: #0078d4; /* Destaque Azul Microsoft */
+  color: #ffffff;
+  font-weight: 600;
+}
+/* --- FIM DA CORREÇÃO DE NAVEGAÇÃO --- */
+
+.sidebar-footer {
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  border-top: 1px solid #334155;
+}
+
+.logout-link {
+  display: block;
+  padding: 0.75rem;
+  text-decoration: none;
+  color: #cbd5e1;
+  background-color: #334155;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.logout-link:hover {
+  background-color: #475569;
+}
