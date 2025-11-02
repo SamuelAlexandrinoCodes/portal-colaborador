@@ -1,34 +1,51 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import './App.css'; // <--- Vamos criar este CSS
-import Sidebar from './Sidebar';
-import Header from './Header';
-import UploadPage from './UploadPage';
-import HistoryPage from './HistoryPage';
-import LogoutPage from './LogoutPage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+
+// Nossos componentes de página
+import LoginPage from './components/LoginPage';
+import UploadPage from './components/UploadPage';
+import HistoryPage from './components/HistoryPage';
+import ProtectedRoute from './components/ProtectedRoute'; // O novo guarda
+
+// (Importe seu Sidebar se ele for separado)
+// import Sidebar from './components/Sidebar'; 
 
 function App() {
   return (
-    <div className="app-shell">
-      <Sidebar />
-      <div className="main-content">
-        <Header />
-        <main className="page-content">
+    <AuthProvider>
+      <BrowserRouter>
+        <div className="app-container">
+          {/* O Sidebar agora é renderizado DENTRO das rotas protegidas,
+            para que não apareça na página de login.
+          */}
           <Routes>
-            {/* Rota padrão e rota de upload */}
-            <Route path="/" element={<UploadPage />} />
-            <Route path="/upload" element={<UploadPage />} />
+            {/* Rota Pública */}
+            <Route path="/" element={<LoginPage />} />
+
+            {/* Rotas Protegidas */}
+            <Route 
+              path="/upload" 
+              element={
+                <ProtectedRoute>
+                  <UploadPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/history" 
+              element={
+                <ProtectedRoute>
+                  <HistoryPage />
+                </ProtectedRoute>
+              } 
+            />
             
-            {/* Rota de histórico (simples) */}
-            <Route path="/historico" element={<HistoryPage />} />
-            {/* Rota de logout */}
-            <Route path="/logout-success" element={<LogoutPage />} />
-            
-            {/* TODO: Adicionar mocks para as outras rotas */}
+            {/* TODO: Adicionar uma rota "Not Found" 404 */}
           </Routes>
-        </main>
-      </div>
-    </div>
+        </div>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
