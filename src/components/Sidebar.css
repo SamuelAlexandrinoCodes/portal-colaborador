@@ -1,4 +1,4 @@
-/* /src/components/Sidebar.css */
+/* /src/components/Sidebar.css (Completo e Refinado) */
 
 .sidebar {
   width: 250px;
@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  flex-shrink: 0; /* Impede que a sidebar encolha */
+  flex-shrink: 0; 
   padding: 1.5rem 0;
 }
 
@@ -24,35 +24,41 @@
 .sidebar-links {
   list-style: none;
   padding: 1.5rem 0;
-  flex-grow: 1; /* Empurra o footer para baixo */
+  flex-grow: 1; 
 }
 
 .sidebar-links li {
   margin-bottom: 0.5rem;
 }
 
-/* --- A CORREÇÃO CRÍTICA DE NAVEGAÇÃO --- */
 .sidebar-links a {
   display: block;
   padding: 0.75rem 1.5rem;
-  text-decoration: none; /* Remove o sublinhado roxo */
-  color: #cbd5e1; /* Cinza claro */
+  text-decoration: none; 
+  color: #cbd5e1; 
   border-radius: 4px;
   margin: 0 1rem;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, color 0.2s; /* Adicionado */
 }
 
 .sidebar-links a:hover {
-  background-color: #334155; /* Azul mais escuro */
+  background-color: #334155; 
 }
 
-/* O 'NavLink' ativo */
+/* --- AÇÃO 2: APLICADA (Foco) --- */
+.sidebar-links a:focus {
+  outline: 2px solid #0078d4;
+  outline-offset: -2px; /* Dentro do elemento */
+  background-color: #334155;
+}
+/* --- FIM DA AÇÃO 2 --- */
+
+
 .sidebar-links a.active-link {
-  background-color: #0078d4; /* Destaque Azul Microsoft */
+  background-color: #0078d4; 
   color: #ffffff;
   font-weight: 600;
 }
-/* --- FIM DA CORREÇÃO DE NAVEGAÇÃO --- */
 
 .sidebar-footer {
   padding: 1.5rem 1.5rem 0 1.5rem;
@@ -61,16 +67,32 @@
 
 .logout-link {
   display: block;
+  width: 100%; /* Garante que o botão ocupe o espaço */
   padding: 0.75rem;
   text-decoration: none;
   color: #cbd5e1;
   background-color: #334155;
+  border: none; /* Resetar borda do botão */
   border-radius: 4px;
   text-align: center;
   font-weight: 500;
-  transition: background-color 0.2s;
+  font-size: 1rem; /* Consistência */
+  cursor: pointer; /* Consistência */
+  transition: background-color 0.2s, transform 0.1s;
 }
 
 .logout-link:hover {
   background-color: #475569;
 }
+
+/* --- AÇÃO 2: APLICADA (Foco/Ativo) --- */
+.logout-link:focus {
+  outline: 3px solid #0078d4;
+  outline-offset: 2px;
+}
+
+.logout-link:active {
+  transform: scale(0.98);
+  background-color: #526176;
+}
+/* --- FIM DA AÇÃO 2 --- */

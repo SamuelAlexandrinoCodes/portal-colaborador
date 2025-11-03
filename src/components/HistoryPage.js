@@ -1,10 +1,10 @@
+// /src/components/HistoryPage.js (Completo e Refinado)
+
 import React, { useState, useEffect } from 'react';
 import { useMsal } from "@azure/msal-react"; 
 import { loginRequest } from "../authConfig"; 
-import './HistoryPage.css'; // O CSS (v25) que já temos
+import './HistoryPage.css';
 
-// --- NOVO SUB-COMPONENTE TÁTICO (REQ-06 v2.0) ---
-// Para renderizar o status com cores (Vermelho/Verde/Amarelo)
 const StatusBadge = ({ validade, fraude, processamento }) => {
   if (processamento !== "Processado (MSAL)") {
     return <span className="status-badge status-pending">{processamento}</span>;
@@ -19,20 +19,19 @@ const StatusBadge = ({ validade, fraude, processamento }) => {
     return <span className="status-badge status-expired">{validade}</span>;
   }
   
-  // Fallback
   return <span className="status-badge status-pending">{validade}</span>;
 };
-// --- FIM DO SUB-COMPONENTE ---
 
 
 function HistoryPage() {
   const [documents, setDocuments] = useState([]);
-  const [feedback, setFeedback] = useState('Adquirindo token...');
+  // --- AÇÃO 4: APLICADA (Feedback mais granular) ---
+  const [feedback, setFeedback] = useState({ message: 'Adquirindo token...', type: 'info' });
   const { instance, accounts } = useMsal();
 
   useEffect(() => {
     if (!accounts || accounts.length === 0) {
-      setFeedback("Aguardando login...");
+      setFeedback({ message: "Aguardando login...", type: 'info' });
       return;
     }
 
@@ -51,17 +50,17 @@ function HistoryPage() {
           await instance.acquireTokenRedirect({ ...loginRequest, account: accounts[0] });
           return; 
         } catch (redirectErr) {
-          setFeedback("Falha ao adquirir token. Tente recarregar a página.");
+          setFeedback({ message: "Falha ao adquirir token. Tente recarregar a página.", type: 'error' });
           return;
         }
       }
 
       if (!token) {
-        setFeedback("Token não encontrado.");
+        setFeedback({ message: "Token não encontrado.", type: 'error' });
         return;
       }
 
-      setFeedback("Carregando seu histórico...");
+      setFeedback({ message: "Carregando seu histórico...", type: 'info' });
       
       try {
         const backendUrl = "https://saofunc-backendtrigger-fraud.azurewebsites.net/api/history";
@@ -76,15 +75,19 @@ function HistoryPage() {
         const result = await response.json();
 
         if (!response.ok) {
-          setFeedback(`Erro: ${result.error || 'Falha ao buscar histórico.'}`);
+          setFeedback({ message: `Erro: ${result.error || 'Falha ao buscar histórico.'}`, type: 'error' });
         } else {
           setDocuments(result.documents || []);
-          setFeedback(result.documents.length === 0 ? "Nenhum documento encontrado." : "");
+          if (result.documents.length === 0) {
+            setFeedback({ message: "Nenhum documento encontrado.", type: 'info' });
+          } else {
+            setFeedback({ message: '', type: 'info' }); // Limpa o feedback em caso de sucesso
+          }
         }
 
       } catch (err) {
         console.error("Erro de rede ou fetch:", err);
-        setFeedback("Erro de conexão. Verifique sua rede.");
+        setFeedback({ message: "Erro de conexão. Verifique sua rede.", type: 'error' });
       }
     };
 
@@ -93,11 +96,15 @@ function HistoryPage() {
 
   return (
     <div className="page-container">
-      <h2>Meus Documentos (REQ-06 v2.0)</h2>
+      <h2>Meus Documentos</h2>
       
-      {feedback && <div className="feedback-message">{feedback}</div>}
+      {/* --- AÇÃO 4: APLICADA --- */}
+      {feedback.message && (
+        <div className={`feedback-message feedback-${feedback.type}`}>
+          {feedback.message}
+        </div>
+      )}
 
-      {/* --- INÍCIO DA CORREÇÃO (REQ-06 v2.0) --- */}
       <div className="history-list">
         <table>
           <thead>
@@ -111,26 +118,26 @@ function HistoryPage() {
             </tr>
           </thead>
           <tbody>
+            {/* --- AÇÃO 1: APLICADA (data-label) --- */}
             {documents.map(doc => (
               <tr key={doc.id}>
-                <td>{doc.filename || 'N/A'}</td>
-                <td>
+                <td data-label="Arquivo">{doc.filename || 'N/A'}</td>
+                <td data-label="Status do Laudo">
                   <StatusBadge 
                     validade={doc.status_validade}
                     fraude={doc.status_fraude}
                     processamento={doc.status_processamento}
                   />
                 </td>
-                <td>{doc.nome_paciente || 'N/A'}</td>
-                <td>{doc.nome_medico || 'N/A'} (ID: {doc.id_medico || 'N/A'})</td>
-                <td>{doc.definicao_laudo || 'N/A'}</td>
-                <td>{new Date(doc.upload_timestamp).toLocaleString()}</td>
+                <td data-label="Paciente">{doc.nome_paciente || 'N/A'}</td>
+                <td data-label="Médico">{doc.nome_medico || 'N/A'} (ID: {doc.id_medico || 'N/A'})</td>
+                <td data-label="Definição">{doc.definicao_laudo || 'N/A'}</td>
+                <td data-label="Data de Envio">{new Date(doc.upload_timestamp).toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      {/* --- FIM DA CORREÇÃO --- */}
     </div>
   );
 }

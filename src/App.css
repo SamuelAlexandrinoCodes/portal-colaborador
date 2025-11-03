@@ -1,4 +1,4 @@
-/* /src/App.css */
+/* /src/App.css (Completo e Refinado) */
 
 /* Remove margens padrão */
 body, h1, h2, h3, p, ul, li {
@@ -10,6 +10,7 @@ body, h1, h2, h3, p, ul, li {
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background-color: #f4f7f6;
+  color: #1e293b; /* Cor de texto base */
 }
 
 /* O contêiner de App (geralmente em index.js ou App.js) */
@@ -20,31 +21,70 @@ body {
   flex-direction: column;
 }
 
+/* --- AÇÃO 3: HIERARQUIA TIPOGRÁFICA (Adicionada) --- */
+h2 {
+  font-size: 1.75rem; /* Contraste de tamanho */
+  font-weight: 600;  /* Contraste de peso */
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: 1rem;
+  color: #475569;
+  line-height: 1.5; /* Espaçamento de linha */
+  margin-bottom: 1.5rem;
+}
+/* --- FIM DA AÇÃO 3 --- */
+
+
 /* --- A CORREÇÃO CRÍTICA DE LAYOUT --- */
-/* Este é o contêiner renderizado pelo ProtectedRoute.js */
 .protected-layout {
   display: flex;
-  flex-direction: row; /* Coloca a sidebar AO LADO do conteúdo */
-  height: 100vh;      /* Ocupa a altura total */
+  flex-direction: row; 
+  height: 100vh;
   width: 100%;
 }
 
-/* A área de conteúdo principal */
 .content-area {
-  flex-grow: 1; /* Permite que o conteúdo ocupe o espaço restante */
-  overflow-y: auto; /* Adiciona scroll se o conteúdo for longo */
+  flex-grow: 1; 
+  overflow-y: auto; 
   background-color: #ffffff;
-  /* O 'padding: 2rem' que estava no .page-container agora vive aqui */
   padding: 2rem; 
 }
-/* --- FIM DA CORREÇÃO DE LAYOUT --- */
 
-/* Estilos de Feedback (movidos do UploadPage.css para serem globais) */
+/* --- AÇÃO 4: ESTILOS DE FEEDBACK (Substituído) --- */
+/* Estilos de Feedback Globais */
 .feedback-message {
   margin-top: 1.5rem;
   padding: 1rem;
   border-radius: 4px;
-  background-color: #e6f7ff;
-  border: 1px solid #b3e0ff;
+  border: 1px solid;
+  font-weight: 500;
+}
+
+.feedback-info {
+  background-color: #e6f7ff; /* Azul (Info) */
+  border-color: #b3e0ff;
   color: #0056b3;
 }
+
+.feedback-success {
+  background-color: #d1f7e4; /* Verde (Sucesso) */
+  border-color: #a3e9c7;
+  color: #008744;
+}
+
+.feedback-error {
+  background-color: #f7d1d1; /* Vermelho (Erro) */
+  border-color: #f0a3a3;
+  color: #d62d20;
+}
+/* --- FIM DA AÇÃO 4 --- */

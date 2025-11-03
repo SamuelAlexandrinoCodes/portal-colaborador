@@ -1,6 +1,9 @@
+/* /src/components/UploadPage.css (Completo e Refinado) */
+
 /* Estilos para a Página de Upload */
 .page-container {
-  padding: 2rem;
+  /* Este padding é agora redundante se .content-area já o tiver */
+  /* padding: 2rem; */ 
   width: 100%;
 }
 
@@ -22,12 +25,10 @@
   margin-bottom: 1.5rem;
 }
 
-/* Ocultar o input de arquivo padrão */
 .file-input {
   display: none;
 }
 
-/* Estilizar o 'label' para parecer um botão */
 .file-label {
   background-color: #f0f0f0;
   color: #333;
@@ -37,11 +38,25 @@
   cursor: pointer;
   font-weight: 500;
   font-size: 1rem;
+  transition: background-color 0.2s; /* Adicionado para suavidade */
 }
 
 .file-label:hover {
   background-color: #e0e0e0;
 }
+
+/* --- AÇÃO 2: APLICADA (Foco/Ativo) --- */
+.file-label:focus {
+  outline: 3px solid #0078d4;
+  outline-offset: 2px;
+}
+
+.file-label:active {
+  background-color: #d0d0d0;
+  transform: scale(0.98);
+}
+/* --- FIM DA AÇÃO 2 --- */
+
 
 .upload-button {
   background-color: #0078d4;
@@ -52,6 +67,7 @@
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s; /* Adicionado */
 }
 
 .upload-button:hover {
@@ -63,11 +79,18 @@
   cursor: not-allowed;
 }
 
-.feedback-message {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  border-radius: 4px;
-  background-color: #e6f7ff;
-  border: 1px solid #b3e0ff;
-  color: #0056b3;
+/* --- AÇÃO 2: APLICADA (Foco/Ativo) --- */
+.upload-button:focus {
+  outline: 3px solid #0078d4;
+  outline-offset: 2px;
 }
+
+.upload-button:active {
+  transform: scale(0.98);
+  background-color: #004578;
+}
+/* --- FIM DA AÇÃO 2 --- */
+
+
+/* Esta regra foi movida para App.css e granularizada */
+/* .feedback-message { ... } */

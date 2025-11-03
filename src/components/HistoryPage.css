@@ -1,4 +1,6 @@
-/* Estilos para a Página de Histórico */
+/* /src/components/HistoryPage.css (Completo e Refinado) */
+
+/* --- SEÇÃO ORIGINAL (INTACTA) --- */
 .history-list {
   margin-top: 2rem;
   width: 100%;
@@ -53,4 +55,52 @@
 .status-badge.status-pending {
   background-color: #d1e9f7; /* Azul claro */
   color: #0056b3; /* Azul escuro */
+}
+
+/* --- AÇÃO 1: ADIÇÃO DA CORREÇÃO DE RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+  .history-list table {
+    border: 0;
+  }
+
+  .history-list table thead {
+    display: none; /* Ocultar cabeçalhos de desktop */
+  }
+
+  .history-list table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .history-list table td {
+    display: block;
+    text-align: right; /* Alinha o valor à direita */
+    padding-left: 50%; /* Espaço para o "label" */
+    position: relative;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .history-list table td:last-child {
+    border-bottom: 0;
+  }
+
+  /* Criar o "label" usando o pseudo-elemento */
+  .history-list table td::before {
+    content: attr(data-label); /* Requer a mudança no .js */
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    padding-right: 10px;
+    text-align: left;
+    font-weight: 600;
+    color: #333; /* Garante legibilidade do label */
+  }
+
+  /* Ajustar o badge de status para o layout móvel */
+  .history-list table td .status-badge {
+    position: relative;
+    right: -5px; /* Alinhamento visual */
+  }
 }

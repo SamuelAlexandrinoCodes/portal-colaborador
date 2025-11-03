@@ -1,3 +1,5 @@
+// /src/components/UploadPage.js (Completo e Refinado)
+
 import React, { useState } from 'react';
 import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "../authConfig"; 
@@ -5,7 +7,8 @@ import './UploadPage.css';
 
 function UploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [feedback, setFeedback] = useState(''); 
+  // --- AÇÃO 4: APLICADA (Estado de Feedback granular) ---
+  const [feedback, setFeedback] = useState({ message: '', type: 'info' });
   const [isUploading, setIsUploading] = useState(false);
   
   const { instance, accounts } = useMsal();
@@ -13,23 +16,30 @@ function UploadPage() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file && file.type !== "application/pdf") {
-      setFeedback("Erro: O arquivo deve ser um .pdf");
+      // --- AÇÃO 4: APLICADA ---
+      setFeedback({ message: "Erro: O arquivo deve ser um .pdf", type: 'error' });
       setSelectedFile(null);
       return;
     }
-    setFeedback(file ? `Arquivo selecionado: ${file.name}` : '');
+    // --- AÇÃO 4: APLICADA ---
+    setFeedback({ 
+      message: file ? `Arquivo selecionado: ${file.name}` : '', 
+      type: 'info' 
+    });
     setSelectedFile(file);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!selectedFile) {
-        setFeedback("Por favor, selecione um arquivo PDF primeiro.");
+        // --- AÇÃO 4: APLICADA ---
+        setFeedback({ message: "Por favor, selecione um arquivo PDF primeiro.", type: 'error' });
         return;
     }
 
     setIsUploading(true);
-    setFeedback("Adquirindo token de autenticação...");
+    // --- AÇÃO 4: APLICADA ---
+    setFeedback({ message: "Adquirindo token de autenticação...", type: 'info' });
 
     let token = null;
 
@@ -40,10 +50,7 @@ function UploadPage() {
       });
       token = tokenResponse.accessToken;
     } catch (err) {
-      // --- INÍCIO DA CORREÇÃO (MSAL-R) ---
-      // Corrigido: 'logging.warn' para 'console.warn'
       console.warn("Aquisição silenciosa falhou, tentando redirecionamento: ", err);
-      // --- FIM DA CORREÇÃO ---
       try {
         await instance.acquireTokenRedirect({
           ...loginRequest,
@@ -51,19 +58,22 @@ function UploadPage() {
         });
         return; 
       } catch (redirectErr) {
-        setFeedback("Erro crítico: Falha ao adquirir token. Tente fazer login novamente.");
+        // --- AÇÃO 4: APLICADA ---
+        setFeedback({ message: "Erro crítico: Falha ao adquirir token. Tente fazer login novamente.", type: 'error' });
         setIsUploading(false);
         return;
       }
     }
 
     if (!token) {
-      setFeedback("Erro: Token não adquirido.");
+      // --- AÇÃO 4: APLICADA ---
+      setFeedback({ message: "Erro: Token não adquirido.", type: 'error' });
       setIsUploading(false);
       return;
     }
 
-    setFeedback("Enviando... por favor, aguarde.");
+    // --- AÇÃO 4: APLICADA ---
+    setFeedback({ message: "Enviando... por favor, aguarde.", type: 'info' });
     const formData = new FormData();
     formData.append("file", selectedFile);
 
@@ -81,9 +91,11 @@ function UploadPage() {
       const result = await response.json();
 
       if (!response.ok) {
-        setFeedback(`Erro: ${result.error || 'Falha ao enviar.'}`);
+        // --- AÇÃO 4: APLICADA ---
+        setFeedback({ message: `Erro: ${result.error || 'Falha ao enviar.'}`, type: 'error' });
       } else {
-        setFeedback(`Sucesso: ${result.message}`);
+        // --- AÇÃO 4: APLICADA ---
+        setFeedback({ message: `Sucesso: ${result.message}`, type: 'success' });
         setSelectedFile(null);
         if (document.getElementById('file-input')) {
             document.getElementById('file-input').value = "";
@@ -92,13 +104,13 @@ function UploadPage() {
 
     } catch (err) {
       console.error("Erro de rede ou fetch:", err);
-      setFeedback("Erro de conexão ou CORS. Verifique o console (F12) e a configuração do backend.");
+      // --- AÇÃO 4: APLICADA ---
+      setFeedback({ message: "Erro de conexão ou CORS. Verifique o console (F12) e a configuração do backend.", type: 'error' });
     } finally {
       setIsUploading(false);
     }
   };
 
-  // ... (O JSX 'return' permanece o mesmo) ...
   return (
     <div className="page-container">
       <h2>Enviar Laudo Médico</h2>
@@ -127,9 +139,10 @@ function UploadPage() {
         </button>
       </form>
 
-      {feedback && (
-        <div className="feedback-message">
-          {feedback}
+      {/* --- AÇÃO 4: APLICADA (Renderização do feedback) --- */}
+      {feedback.message && (
+        <div className={`feedback-message feedback-${feedback.type}`}>
+          {feedback.message}
         </div>
       )}
     </div>
