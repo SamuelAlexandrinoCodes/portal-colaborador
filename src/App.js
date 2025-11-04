@@ -1,31 +1,34 @@
+// /src/App.js (Completo e Refinado)
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css'; 
-import './components/LoginPage.css';
 
-// --- INÍCIO DA MUDANÇA (Operação MSAL) ---
+// --- Autenticação MSAL ---
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from "@azure/msal-react";
 import { loginRequest } from "./authConfig";
-// --- FIM DA MUDANÇA ---
 
-// Nossos componentes de página
+// --- CSS DE COMPONENTES ---
+import './components/LoginPage.css'; // O CSS da "Doutrina do Foco Absoluto"
+
+// --- Componentes de Página ---
 import UploadPage from './components/UploadPage';
 import HistoryPage from './components/HistoryPage';
-import Sidebar from './components/Sidebar'; // <-- Importar o Sidebar
+import Sidebar from './components/Sidebar';
 
-// --- NOVO COMPONENTE DE LOGIN ---
+// --- COMPONENTE: PÁGINA DE LOGIN (Unauthenticated) ---
 function LoginPage() {
   const { instance } = useMsal();
 
   const handleLogin = () => {
-    // Usar 'loginRedirect' é o padrão para SPAs
+    // A lógica de login que sempre funcionou
     instance.loginRedirect(loginRequest).catch(e => {
       console.error("Falha no loginRedirect: ", e);
     });
   }
 
   return (
-    // Este é o wrapper que o LoginPage.css irá estilizar
+    // O wrapper que o LoginPage.css estiliza
     <div className="login-page-wrapper">
       <div className="login-card">
         <h3>Portal do Colaborador</h3>
@@ -38,7 +41,7 @@ function LoginPage() {
   );
 }
 
-// --- NOVO COMPONENTE DE LAYOUT PROTEGIDO ---
+// --- COMPONENTE: LAYOUT PROTEGIDO (Authenticated) ---
 function ProtectedLayout() {
   // A MSAL garante que este componente só renderize se autenticado
   return (
@@ -56,6 +59,7 @@ function ProtectedLayout() {
   );
 }
 
+// --- COMPONENTE PRINCIPAL: App ---
 function App() {
   return (
     <div className="app-container">
