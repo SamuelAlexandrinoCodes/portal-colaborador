@@ -1,62 +1,63 @@
 /* /src/components/UploadPage.css (Completo e Refinado) */
 
-/* Estilos para a Página de Upload */
-.page-container {
-  /* Este padding é agora redundante se .content-area já o tiver */
-  /* padding: 2rem; */ 
-  width: 100%;
-}
+/* * A regra .page-container foi REMOVIDA.
+ * O espaçamento (padding) agora é 100% controlado 
+ * pelo .content-area em App.css. Isto elimina redundância.
+ */
 
 .upload-form {
   max-width: 600px;
   margin-top: 2rem;
 }
 
+/* --- AÇÃO 3: REFINAMENTO ESTÉTICO --- */
 .upload-box {
-  border: 2px dashed #ccc;
+  /* Substituída a borda tracejada por um fundo sólido */
+  border: 2px solid #b3e0ff; /* Azul de "Info" (borda) */
+  background-color: #f7faff; /* Um azul quase branco, muito sutil */
   border-radius: 8px;
-  padding: 2rem;
+  padding: 2.5rem; /* Mais espaço interno */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #f9f9f9;
   min-height: 150px;
   margin-bottom: 1.5rem;
 }
+/* --- FIM DA AÇÃO 3 --- */
 
 .file-input {
   display: none;
 }
 
 .file-label {
-  background-color: #f0f0f0;
-  color: #333;
+  /* Estilo mais "leve" para combinar com o novo box */
+  background-color: #ffffff;
+  color: #0056b3; /* Cor primária azul */
   padding: 10px 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #b3e0ff; /* Borda azul */
   border-radius: 4px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600; /* Mais destaque */
   font-size: 1rem;
-  transition: background-color 0.2s; /* Adicionado para suavidade */
+  transition: all 0.2s; 
 }
 
 .file-label:hover {
-  background-color: #e0e0e0;
+  background-color: #e6f7ff; /* Fundo azul "Info" */
+  border-color: #0078d4;
+  color: #004578;
 }
 
-/* --- AÇÃO 2: APLICADA (Foco/Ativo) --- */
 .file-label:focus {
   outline: 3px solid #0078d4;
   outline-offset: 2px;
 }
 
 .file-label:active {
-  background-color: #d0d0d0;
+  background-color: #d0e9f8;
   transform: scale(0.98);
 }
-/* --- FIM DA AÇÃO 2 --- */
-
 
 .upload-button {
   background-color: #0078d4;
@@ -67,7 +68,7 @@
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s; /* Adicionado */
+  transition: background-color 0.2s, transform 0.1s; 
 }
 
 .upload-button:hover {
@@ -79,7 +80,6 @@
   cursor: not-allowed;
 }
 
-/* --- AÇÃO 2: APLICADA (Foco/Ativo) --- */
 .upload-button:focus {
   outline: 3px solid #0078d4;
   outline-offset: 2px;
@@ -89,8 +89,3 @@
   transform: scale(0.98);
   background-color: #004578;
 }
-/* --- FIM DA AÇÃO 2 --- */
-
-
-/* Esta regra foi movida para App.css e granularizada */
-/* .feedback-message { ... } */
