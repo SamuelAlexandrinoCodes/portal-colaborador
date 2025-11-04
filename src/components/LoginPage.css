@@ -1,24 +1,60 @@
 /* /src/components/LoginPage.css (Completo e Refinado) */
 
-/* O .login-container antigo foi substituído pelo .login-card */
+/* --- AÇÃO 3: REFINAMENTO MESTRE (Login Page) --- */
+
+/* Coluna 1: O Lado do Branding */
+.login-branding-column {
+  flex: 1; /* Ocupa 50% */
+  background-color: #1e293b; /* O azul da nossa sidebar */
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.login-branding-content {
+  max-width: 400px;
+}
+
+.login-branding-content h2 {
+  color: #ffffff;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.login-branding-content p {
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Coluna 2: O Lado do Formulário */
+.login-form-area {
+  flex: 1; /* Ocupa 50% */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8fafc; /* Um cinza muito claro */
+  padding: 2rem;
+}
+
 .login-card {
   background-color: #ffffff;
   border-radius: 8px;
-  /* Sombra sutil para "elevar" o card */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0; /* Borda leve */
+  border: 1px solid #e2e8f0; 
   padding: 2.5rem;
   width: 100%;
   max-width: 400px;
   text-align: center;
-  margin: 1rem; /* Margem de segurança para telas pequenas */
+  box-sizing: border-box;
 }
 
-/* Usando a hierarquia de App.css, mas ajustada */
 .login-card h3 {
   text-align: center;
   color: #1e293b;
-  font-size: 1.5rem; /* Título de destaque */
+  font-size: 1.5rem; 
   margin-bottom: 1rem;
 }
 
@@ -29,8 +65,29 @@
   color: #475569;
 }
 
-/* O .upload-button é reutilizado do UploadPage.css */
-/* Garantir que o botão ocupe a largura total */
 .login-card .upload-button {
   width: 100%;
 }
+
+/* Responsividade Tática para a Página de Login */
+@media (max-width: 768px) {
+  /* Em telas pequenas, o "split-screen" é ruim.
+     Vamos empilhar as colunas. */
+  .login-page-wrapper {
+    flex-direction: column;
+    height: auto; /* Altura automática */
+    min-height: 100%; /* Garante que ocupe pelo menos a tela inteira */
+  }
+
+  .login-branding-column {
+    flex: none; /* Remove o flex-basis */
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+
+  .login-form-area {
+    flex: none; /* Remove o flex-basis */
+    padding: 2rem 1rem;
+  }
+}
+/* --- FIM DA AÇÃO 3 --- */

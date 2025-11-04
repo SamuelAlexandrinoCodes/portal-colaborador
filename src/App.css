@@ -1,58 +1,60 @@
 /* /src/App.css (Completo e Refinado) */
 
-/* Remove margens padrão */
-body, h1, h2, h3, p, ul, li {
+/* --- AÇÃO 1: CORREÇÃO DE LAYOUT GLOBAL --- */
+/* Força a aplicação a ocupar 100% do seu container, 
+   em vez de 100% do viewport (vh) */
+html, body, #root {
+  height: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
+/* --- FIM DA AÇÃO 1 --- */
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background-color: #f4f7f6;
-  color: #1e293b; /* Cor de texto base */
+  color: #1e293b; 
 }
 
-/* O contêiner de App (geralmente em index.js ou App.js) */
+/* O contêiner de App */
 .app-container {
-  height: 100vh;
-  width: 100vw;
+  /* --- AÇÃO 1: CORREÇÃO DE LAYOUT GLOBAL --- */
+  height: 100%; 
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* --- AÇÃO 3: HIERARQUIA TIPOGRÁFICA (Adicionada) --- */
+/* Tipografia */
 h2 {
-  font-size: 1.75rem; /* Contraste de tamanho */
-  font-weight: 600;  /* Contraste de peso */
+  font-size: 1.75rem; 
+  font-weight: 600;  
   color: #1e293b;
   margin-bottom: 0.5rem;
 }
-
 h3 {
   font-size: 1.25rem;
   font-weight: 600;
   color: #334155;
   margin-bottom: 0.5rem;
 }
-
 p {
   font-size: 1rem;
   color: #475569;
-  line-height: 1.5; /* Espaçamento de linha */
+  line-height: 1.5; 
   margin-bottom: 1.5rem;
 }
-/* --- FIM DA AÇÃO 3 --- */
 
-
-/* --- A CORREÇÃO CRÍTICA DE LAYOUT --- */
+/* O Layout Protegido */
 .protected-layout {
   display: flex;
   flex-direction: row; 
-  height: 100vh;
+  /* --- AÇÃO 1: CORREÇÃO DE LAYOUT GLOBAL --- */
+  height: 100%; /* Ocupa 100% do .app-container */
   width: 100%;
 }
 
+/* A Área de Conteúdo */
 .content-area {
   flex-grow: 1; 
   overflow-y: auto; 
@@ -60,7 +62,6 @@ p {
   padding: 2rem; 
 }
 
-/* --- AÇÃO 4: ESTILOS DE FEEDBACK (Substituído) --- */
 /* Estilos de Feedback Globais */
 .feedback-message {
   margin-top: 1.5rem;
@@ -69,33 +70,27 @@ p {
   border: 1px solid;
   font-weight: 500;
 }
-
 .feedback-info {
-  background-color: #e6f7ff; /* Azul (Info) */
+  background-color: #e6f7ff; 
   border-color: #b3e0ff;
   color: #0056b3;
 }
-
 .feedback-success {
-  background-color: #d1f7e4; /* Verde (Sucesso) */
+  background-color: #d1f7e4; 
   border-color: #a3e9c7;
   color: #008744;
 }
-
 .feedback-error {
-  background-color: #f7d1d1; /* Vermelho (Erro) */
+  background-color: #f7d1d1; 
   border-color: #f0a3a3;
   color: #d62d20;
 }
-/* /src/App.css (Adicionar ao final) */
 
-/* --- AÇÃO 3: REFINAMENTO ESTÉTICO LOGIN --- */
+/* Layout da Página de Login (para Ação 3) */
 .login-page-wrapper {
-  width: 100%;
-  height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f4f7f6; /* Cor de fundo global */
+  flex-direction: row; /* Colunas lado a lado */
+  /* --- AÇÃO 1: CORREÇÃO DE LAYOUT GLOBAL --- */
+  height: 100%; /* Ocupa 100% do .app-container */
+  width: 100%;
 }
-/* --- FIM DA AÇÃO 4 --- */

@@ -6,17 +6,17 @@
   color: #cbd5e1;
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Ocupa a altura total do viewport */
+  /* --- AÇÃO 1: CORREÇÃO DE LAYOUT GLOBAL --- */
+  height: 100%; /* Ocupa 100% do .protected-layout */
   flex-shrink: 0; 
   padding: 1.5rem 0;
+  box-sizing: border-box; /* Garante que o padding não quebre o 100% */
 }
 
 .sidebar-header {
   padding: 0 1.5rem 1.5rem 1.5rem;
   border-bottom: 1px solid #334155;
-  flex-shrink: 0; /* Impede que o header encolha */
-  
-  /* --- AÇÃO 2: APLICADA (Centralização) --- */
+  flex-shrink: 0; 
   text-align: center;
 }
 
@@ -28,10 +28,8 @@
 .sidebar-links {
   list-style: none;
   padding: 1.5rem 0;
-  
-  /* --- AÇÃO 1: APLICADA (Footer Visível) --- */
-  flex-grow: 1; /* Ocupa o espaço restante */
-  overflow-y: auto; /* Adiciona scroll APENAS aos links, se necessário */
+  flex-grow: 1; 
+  overflow-y: auto; /* Scroll interno apenas dos links */
 }
 
 .sidebar-links li {
@@ -67,9 +65,7 @@
 .sidebar-footer {
   padding: 1.5rem 1.5rem 0 1.5rem;
   border-top: 1px solid #334155;
-  
-  /* --- AÇÃO 1: APLICADA (Footer Visível) --- */
-  flex-shrink: 0; /* Impede que o footer encolha */
+  flex-shrink: 0; 
 }
 
 .logout-link {

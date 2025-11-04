@@ -1,50 +1,52 @@
 /* /src/components/UploadPage.css (Completo e Refinado) */
 
-/* * A regra .page-container foi REMOVIDA.
- * O espaçamento (padding) agora é 100% controlado 
- * pelo .content-area em App.css. Isto elimina redundância.
- */
+/* --- AÇÃO 2: CENTRALIZAÇÃO DE CONTEÚDO --- */
+.page-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza o .upload-form */
+}
+/* --- FIM DA AÇÃO 2 --- */
 
 .upload-form {
   max-width: 600px;
+  width: 100%; /* Garante que ocupe 100% até o max-width */
   margin-top: 2rem;
 }
 
-/* --- AÇÃO 3: REFINAMENTO ESTÉTICO --- */
 .upload-box {
-  /* Substituída a borda tracejada por um fundo sólido */
-  border: 2px solid #b3e0ff; /* Azul de "Info" (borda) */
-  background-color: #f7faff; /* Um azul quase branco, muito sutil */
+  border: 2px solid #b3e0ff; 
+  background-color: #f7faff; 
   border-radius: 8px;
-  padding: 2.5rem; /* Mais espaço interno */
+  padding: 2.5rem; 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 150px;
   margin-bottom: 1.5rem;
+  box-sizing: border-box;
 }
-/* --- FIM DA AÇÃO 3 --- */
 
 .file-input {
   display: none;
 }
 
 .file-label {
-  /* Estilo mais "leve" para combinar com o novo box */
   background-color: #ffffff;
-  color: #0056b3; /* Cor primária azul */
+  color: #0056b3; 
   padding: 10px 20px;
-  border: 1px solid #b3e0ff; /* Borda azul */
+  border: 1px solid #b3e0ff; 
   border-radius: 4px;
   cursor: pointer;
-  font-weight: 600; /* Mais destaque */
+  font-weight: 600; 
   font-size: 1rem;
   transition: all 0.2s; 
 }
 
 .file-label:hover {
-  background-color: #e6f7ff; /* Fundo azul "Info" */
+  background-color: #e6f7ff; 
   border-color: #0078d4;
   color: #004578;
 }
