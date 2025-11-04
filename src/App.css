@@ -87,4 +87,15 @@ p {
   border-color: #f0a3a3;
   color: #d62d20;
 }
+/* /src/App.css (Adicionar ao final) */
+
+/* --- AÇÃO 3: REFINAMENTO ESTÉTICO LOGIN --- */
+.login-page-wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f7f6; /* Cor de fundo global */
+}
 /* --- FIM DA AÇÃO 4 --- */

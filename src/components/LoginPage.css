@@ -1,37 +1,36 @@
-/* Estilos para a Página de Login */
-.login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+/* /src/components/LoginPage.css (Completo e Refinado) */
+
+/* O .login-container antigo foi substituído pelo .login-card */
+.login-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  /* Sombra sutil para "elevar" o card */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0; /* Borda leve */
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 400px;
   text-align: center;
-  padding-top: 100px;
+  margin: 1rem; /* Margem de segurança para telas pequenas */
 }
 
-.login-container h2 {
+/* Usando a hierarquia de App.css, mas ajustada */
+.login-card h3 {
+  text-align: center;
+  color: #1e293b;
+  font-size: 1.5rem; /* Título de destaque */
   margin-bottom: 1rem;
 }
 
-.login-container p {
+.login-card p {
+  text-align: center;
   margin-bottom: 2rem;
-  font-size: 1.1rem;
-  color: #555;
-}
-
-/* Reutilizando o estilo do .upload-button para o botão de login */
-.login-container .upload-button {
-  background-color: #0078d4;
-  color: white;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 4px;
   font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: none; /* Para o link 'a' */
-  display: inline-block;
+  color: #475569;
 }
 
-.login-container .upload-button:hover {
-  background-color: #005a9e;
+/* O .upload-button é reutilizado do UploadPage.css */
+/* Garantir que o botão ocupe a largura total */
+.login-card .upload-button {
+  width: 100%;
 }

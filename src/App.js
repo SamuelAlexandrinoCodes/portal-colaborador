@@ -24,12 +24,15 @@ function LoginPage() {
   }
 
   return (
-    <div className="page-container login-container">
-      <h2>Bem-vindo ao Portal do Colaborador</h2>
-      <p>Por favor, faça o login para enviar ou consultar seus documentos.</p>
-      <button onClick={handleLogin} className="upload-button">
-        Fazer Login com Microsoft
-      </button>
+    // O wrapper garante o alinhamento central em toda a página
+    <div className="login-page-wrapper">
+      <div className="login-card">
+        <h3>Portal do Colaborador</h3>
+        <p>Por favor, faça o login para enviar ou consultar seus documentos.</p>
+        <button onClick={handleLogin} className="upload-button">
+          Fazer Login com Microsoft
+        </button>
+      </div>
     </div>
   );
 }
