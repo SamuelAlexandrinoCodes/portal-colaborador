@@ -1,14 +1,11 @@
 /* /src/App.css (Completo e Refinado) */
 
-/* --- AÇÃO 1: CORREÇÃO DE LAYOUT GLOBAL --- */
-/* Força a aplicação a ocupar 100% do seu container, 
-   em vez de 100% do viewport (vh) */
+/* Força a aplicação a ocupar 100% do seu container */
 html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
 }
-/* --- FIM DA AÇÃO 1 --- */
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -18,14 +15,13 @@ body {
 
 /* O contêiner de App */
 .app-container {
-  /* --- AÇÃO 1: CORREÇÃO DE LAYOUT GLOBAL --- */
   height: 100%; 
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* Tipografia */
+/* Tipografia Global */
 h2 {
   font-size: 1.75rem; 
   font-weight: 600;  
@@ -45,24 +41,24 @@ p {
   margin-bottom: 1.5rem;
 }
 
-/* O Layout Protegido */
+/* O Layout Protegido (Pós-Login) */
 .protected-layout {
   display: flex;
   flex-direction: row; 
-  /* --- AÇÃO 1: CORREÇÃO DE LAYOUT GLOBAL --- */
   height: 100%; /* Ocupa 100% do .app-container */
   width: 100%;
 }
 
-/* A Área de Conteúdo */
+/* A Área de Conteúdo (Pós-Login) */
 .content-area {
   flex-grow: 1; 
   overflow-y: auto; 
   background-color: #ffffff;
   padding: 2rem; 
+  box-sizing: border-box;
 }
 
-/* Estilos de Feedback Globais */
+/* Estilos de Feedback Globais (Pós-Login) */
 .feedback-message {
   margin-top: 1.5rem;
   padding: 1rem;
@@ -84,13 +80,4 @@ p {
   background-color: #f7d1d1; 
   border-color: #f0a3a3;
   color: #d62d20;
-}
-
-/* Layout da Página de Login (para Ação 3) */
-.login-page-wrapper {
-  display: flex;
-  flex-direction: row; /* Colunas lado a lado */
-  /* --- AÇÃO 1: CORREÇÃO DE LAYOUT GLOBAL --- */
-  height: 100%; /* Ocupa 100% do .app-container */
-  width: 100%;
 }

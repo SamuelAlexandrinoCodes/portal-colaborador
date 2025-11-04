@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css'; 
+import './components/LoginPage.css';
 
 // --- INÍCIO DA MUDANÇA (Operação MSAL) ---
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from "@azure/msal-react";
@@ -24,7 +25,7 @@ function LoginPage() {
   }
 
   return (
-    // O wrapper garante o alinhamento central em toda a página
+    // Este é o wrapper que o LoginPage.css irá estilizar
     <div className="login-page-wrapper">
       <div className="login-card">
         <h3>Portal do Colaborador</h3>
